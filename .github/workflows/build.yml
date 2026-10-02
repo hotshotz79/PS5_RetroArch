@@ -26,12 +26,9 @@ jobs:
           repository: blackbearreloaded/ps5-opengl
           path: ps5-opengl-sdk-0.2.0
 
-      - name: Pre-clone PS5_PayloadSDK with full history
+      - name: Clean Sibling SDK Artifacts
         run: |
           rm -rf ../PS5_PayloadSDK
-          git clone https://github.com/mihawk-99/PS5_PayloadSDK ../PS5_PayloadSDK
-          cd ../PS5_PayloadSDK
-          git fetch --all --tags
 
       - name: Install System Dependencies
         run: |
@@ -48,7 +45,9 @@ jobs:
             meson \
             ninja-build \
             pkg-config \
-            git
+            git \
+            curl \
+            patch
 
       - name: Install Python Dependencies
         run: |
