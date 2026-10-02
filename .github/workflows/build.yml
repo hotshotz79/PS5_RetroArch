@@ -13,6 +13,13 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Checkout PS5_PayloadSDK
+        uses: actions/checkout@v4
+        with:
+          repository: mihawk-99/PS5_PayloadSDK
+          path: PS5_PayloadSDK
+          fetch-depth: 0
+
       - name: Checkout PS5_Vulkan
         uses: actions/checkout@v4
         with:
