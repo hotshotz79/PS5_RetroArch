@@ -26,6 +26,13 @@ jobs:
           repository: blackbearreloaded/ps5-opengl
           path: ps5-opengl-sdk-0.2.0
 
+      - name: Pre-clone PS5_PayloadSDK with full history
+        run: |
+          rm -rf ../PS5_PayloadSDK
+          git clone https://github.com/mihawk-99/PS5_PayloadSDK ../PS5_PayloadSDK
+          cd ../PS5_PayloadSDK
+          git fetch --all --tags
+
       - name: Install System Dependencies
         run: |
           sudo apt-get update
@@ -51,14 +58,12 @@ jobs:
       - name: Setup Native Dependencies
         run: |
           chmod +x tools/*.sh
-          rm -rf ../PS5_PayloadSDK
           bash tools/setup-native-dependencies.sh
 
       - name: Build PS5 Vulkan Driver
         run: |
           cd PS5_Vulkan
           chmod +x tools/*.sh
-          rm -rf ../PS5_PayloadSDK
           bash tools/setup-native-dependencies.sh || true
           bash tools/build-driver.sh
 
