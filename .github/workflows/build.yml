@@ -27,6 +27,13 @@ jobs:
           path: PS5_Vulkan
           fetch-depth: 0
 
+      - name: Download PS5 OpenGL SDK Dependency
+        run: |
+          curl -L -o ps5-opengl-sdk-0.2.0.tar.gz https://github.com/blackbearreloaded/ps5-opengl/releases/download/v0.2.0/ps5-opengl-sdk-0.2.0.tar.gz || \
+          curl -L -o ps5-opengl-sdk-0.2.0.tar.gz https://github.com/blackbearreloaded/ps5-opengl/archive/refs/tags/v0.2.0.tar.gz
+          mkdir -p ps5-opengl-sdk-0.2.0
+          tar -xzf ps5-opengl-sdk-0.2.0.tar.gz -C ps5-opengl-sdk-0.2.0 --strip-components=1
+
       - name: Install System Dependencies
         run: |
           sudo apt-get update
