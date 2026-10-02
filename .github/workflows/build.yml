@@ -26,18 +26,17 @@ jobs:
           repository: blackbearreloaded/ps5-opengl
           path: ps5-opengl-sdk-0.2.0
 
-      # FIX: Fetch complete history and all refs for PS5_PayloadSDK
-      - name: Checkout PS5_PayloadSDK with Full History
+      - name: Checkout PS5_PayloadSDK
         uses: actions/checkout@v4
         with:
-          repository: mihawk-99/PS5_PayloadSDK
-          path: ../PS5_PayloadSDK
+          repository: ps5-payload-dev/sdk
+          path: PS5_PayloadSDK
           fetch-depth: 0
 
-      - name: Fetch All Branches and Tags for PS5_PayloadSDK
+      - name: Move PS5_PayloadSDK to Sibling Directory
         run: |
-          cd ../PS5_PayloadSDK
-          git fetch --all --tags --force
+          rm -rf ../PS5_PayloadSDK
+          mv PS5_PayloadSDK ../PS5_PayloadSDK
 
       - name: Install System Dependencies
         run: |
