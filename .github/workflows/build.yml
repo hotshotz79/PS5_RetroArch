@@ -13,13 +13,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Checkout PS5_PayloadSDK
-        uses: actions/checkout@v4
-        with:
-          repository: mihawk-99/PS5_PayloadSDK
-          path: PS5_PayloadSDK
-          fetch-depth: 0
-
       - name: Checkout PS5_Vulkan
         uses: actions/checkout@v4
         with:
@@ -58,12 +51,14 @@ jobs:
       - name: Setup Native Dependencies
         run: |
           chmod +x tools/*.sh
+          rm -rf ../PS5_PayloadSDK
           bash tools/setup-native-dependencies.sh
 
       - name: Build PS5 Vulkan Driver
         run: |
           cd PS5_Vulkan
           chmod +x tools/*.sh
+          rm -rf ../PS5_PayloadSDK
           bash tools/setup-native-dependencies.sh || true
           bash tools/build-driver.sh
 
