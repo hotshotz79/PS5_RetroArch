@@ -27,13 +27,6 @@ jobs:
           path: PS5_Vulkan
           fetch-depth: 0
 
-      - name: Download PS5 OpenGL SDK Dependency
-        run: |
-          curl -L -o ps5-opengl-sdk-0.2.0.tar.gz https://github.com/blackbearreloaded/ps5-opengl/releases/download/v0.2.0/ps5-opengl-sdk-0.2.0.tar.gz || \
-          curl -L -o ps5-opengl-sdk-0.2.0.tar.gz https://github.com/blackbearreloaded/ps5-opengl/archive/refs/tags/v0.2.0.tar.gz
-          mkdir -p ps5-opengl-sdk-0.2.0
-          tar -xzf ps5-opengl-sdk-0.2.0.tar.gz -C ps5-opengl-sdk-0.2.0 --strip-components=1
-
       - name: Install System Dependencies
         run: |
           sudo apt-get update
@@ -45,6 +38,7 @@ jobs:
             python3 \
             python3-pip \
             zip \
+            p7zip-full \
             meson \
             ninja-build \
             pkg-config
@@ -54,15 +48,20 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install jsonschema
 
+      - name: Setup PS5 Vulkan Dependencies
+        run: |
+          cd PS5_Vulkan
+          chmod +x tools/*.sh
+          bash tools/setup-native-dependencies.sh
+
       - name: Build PS5 Vulkan Driver
         run: |
           cd PS5_Vulkan
-          chmod +x tools/build-driver.sh tools/setup-native-dependencies.sh
           bash tools/build-driver.sh
 
       - name: Run Build Title Script
         run: |
-          chmod +x tools/build-title.sh tools/setup-native-dependencies.sh
+          chmod +x tools/*.sh
           bash tools/build-title.sh --stage
 
       - name: Compress Build Artifacts
