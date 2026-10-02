@@ -27,6 +27,12 @@ jobs:
           path: PS5_Vulkan
           fetch-depth: 0
 
+      - name: Checkout PS5 OpenGL SDK Dependency
+        uses: actions/checkout@v4
+        with:
+          repository: blackbearreloaded/ps5-opengl
+          path: ps5-opengl-sdk-0.2.0
+
       - name: Install System Dependencies
         run: |
           sudo apt-get update
@@ -48,15 +54,16 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install jsonschema
 
-      - name: Setup PS5 Vulkan Dependencies
+      - name: Setup Native Dependencies
         run: |
-          cd PS5_Vulkan
           chmod +x tools/*.sh
           bash tools/setup-native-dependencies.sh
 
       - name: Build PS5 Vulkan Driver
         run: |
           cd PS5_Vulkan
+          chmod +x tools/*.sh
+          bash tools/setup-native-dependencies.sh || true
           bash tools/build-driver.sh
 
       - name: Run Build Title Script
